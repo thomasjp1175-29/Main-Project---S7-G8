@@ -17,7 +17,7 @@ The system operates through a sequence of specialized autonomous agents:
 
 
   Crawler Agent   ──>  Analysis Agent   ──>  Fixing Agent    ──>   Validation Agent
- (Playwright Core)     (LLM Diagnostic)     (Patch Generator)     (Regression Test)
+  
 
 
 1. **Crawling Agent:** Traverses target web applications using Playwright to map routes, record interactions, capture DOM snapshots, and monitor console errors.
