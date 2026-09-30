@@ -15,10 +15,10 @@ AutoWebFix is an AI-powered automated web application analysis and repair system
 
 The system operates through a sequence of specialized autonomous agents:
 
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Crawler Agent  │ ──> │ Analysis Agent  │ ──> │   Fixing Agent  │ ──> │ Validation Agent│
-│ (Playwright Core│     │ (LLM Diagnostic)│     │(Patch Generator)│     │ (Regression Test│
-└─────────────────┘     └─────────────────┘     └─────────────────┘     └─────────────────┘
+
+  Crawler Agent   ──>  Analysis Agent   ──>  Fixing Agent    ──>   Validation Agent
+ (Playwright Core)     (LLM Diagnostic)     (Patch Generator)     (Regression Test)
+
 
 1. **Crawling Agent:** Traverses target web applications using Playwright to map routes, record interactions, capture DOM snapshots, and monitor console errors.
 2. **Analysis Agent:** Evaluates captured logs, stack traces, and UI snapshots to pinpoint root causes.
