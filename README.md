@@ -39,6 +39,7 @@ The system operates through a sequence of specialized autonomous agents:
 
 ## 📂 Project Structure
 
+```text
 AutoWebFix/
 ├── agents/
 │   ├── crawler/        # Playwright crawler logic & site navigation
@@ -50,3 +51,4 @@ AutoWebFix/
 ├── .gitignore          # Excluded environments and local cache files
 ├── README.md           # Project documentation
 └── requirements.txt    # Python dependencies
+```
