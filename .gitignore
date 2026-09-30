@@ -6,16 +6,37 @@ __pycache__/
 # Virtual environment
 venv/
 .venv/
+env/
 
-# Environment variables / secrets
+# Environment variables & secrets
 .env
+.env.local
 
-# IDE & OS
+# IDE & workspace
 .vscode/
-.DS_Store
-Thumbs.db
+.idea/
 
-# Test / coverage
+# Windows system files
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+ehthumbs_vista.db
+[Nn]tuser.dat*
+$RECYCLE.BIN/
+*.lnk
+
+# macOS system files
+.DS_Store
+
+# Office & temporary files
+~$*.doc*
+~$*.xls*
+~$*.ppt*
+*.tmp
+*.log
+*.bak
+
+# Test & coverage output
 .pytest_cache/
 .coverage
 htmlcov/
