@@ -9,9 +9,11 @@ async def run_crawler(target_url: str):
     
     console_logs = []
     failed_requests = []
+    screenshot_path = None
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        # Launch visible Chromium browser window with 1-second step delay
+        browser = await p.chromium.launch(headless=False, slow_mo=1000)
         page = await browser.new_page()
 
         # Listeners for JavaScript errors & failed requests
@@ -36,6 +38,23 @@ async def run_crawler(target_url: str):
         title = await page.title()
         print(f"[+] Page Title: '{title}'")
 
+        # Evaluate error conditions
+        has_console_errors = any(log["type"] in ["error", "warning"] for log in console_logs)
+        has_network_failures = len(failed_requests) > 0
+        is_http_error = isinstance(status, int) and status >= 400
+
+        # Capture full-page screenshot if an error condition is triggered
+        if has_console_errors or has_network_failures or is_http_error:
+            os.makedirs("logs/screenshots", exist_ok=True)
+            timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+            screenshot_path = os.path.join("logs", "screenshots", f"error_{timestamp_str}.png")
+            
+            await page.screenshot(path=screenshot_path, full_page=True)
+            print(f"[!] Errors detected! Screenshot saved to: {screenshot_path}")
+
+        # Pause for 3 seconds so you can watch the opened window
+        await page.wait_for_timeout(3000)
+
         await browser.close()
 
     # Create diagnostic report object
@@ -45,17 +64,18 @@ async def run_crawler(target_url: str):
         "http_status": status,
         "timestamp": datetime.now().isoformat(),
         "console_logs": console_logs,
-        "failed_requests": failed_requests
+        "failed_requests": failed_requests,
+        "screenshot_captured": screenshot_path
     }
 
-    # Ensure logs folder exists and save report
+    # Save report to logs/crawl_report.json
     os.makedirs("logs", exist_ok=True)
     report_path = os.path.join("logs", "crawl_report.json")
     
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(report_data, f, indent=4)
 
-    print(f"\n[+] Diagnostic report saved to: {report_path}")
+    print(f"[+] Diagnostic report saved to: {report_path}")
 
 if __name__ == "__main__":
     test_url = "https://quotes.toscrape.com/"
